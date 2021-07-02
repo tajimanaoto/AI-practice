@@ -5,12 +5,13 @@ class TodolistsController < ApplicationController
 
   def create
     list = List.new(list_params)
+    list.score = Language.get_data(list_params[:body])  #この行を追加
     list.save
     redirect_to todolist_path(list.id)
     tags = Vision.get_image_data(list.image)    
     tags.each do |tag|
-    list.tags.create(name: tag)
-  end
+     list.tags.create(name: tag)
+    end
   end
 
   def index
